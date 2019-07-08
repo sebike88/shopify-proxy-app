@@ -1,0 +1,36 @@
+{
+  "name": "node-react-shopify",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon start.js",
+    "build": "next build",
+    "start": "next start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/polyfill": "7.4.4",
+    "@shopify/koa-shopify-auth": "3.1.30",
+    "@shopify/polaris": "3.18.0",
+    "@zeit/next-css": "1.0.1",
+    "dotenv": "8.0.0",
+    "isomorphic-fetch": "2.2.1",
+    "js-cookie": "2.2.0",
+    "koa": "2.7.0",
+    "koa-router": "7.4.0",
+    "koa-session": "5.12.0",
+    "next": "9.0.0",
+    "nodemon": "1.19.1",
+    "react": "16.8.6",
+    "react-dom": "16.8.6"
+  },
+  "devDependencies": {
+    "babel-preset-env": "1.7.0",
+    "babel-preset-react": "6.24.1",
+    "babel-register": "6.26.0"
+  }
+}
