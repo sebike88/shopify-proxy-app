@@ -17,6 +17,7 @@
     "@shopify/koa-shopify-auth": "3.1.30",
     "@shopify/polaris": "3.18.0",
     "@zeit/next-css": "1.0.1",
+    "babel-plugin-transform-class-properties": "6.24.1",
     "dotenv": "8.0.0",
     "isomorphic-fetch": "2.2.1",
     "js-cookie": "2.2.0",
@@ -26,7 +27,8 @@
     "next": "9.0.0",
     "nodemon": "1.19.1",
     "react": "16.8.6",
-    "react-dom": "16.8.6"
+    "react-dom": "16.8.6",
+    "webpack-node-externals": "1.7.2"
   },
   "devDependencies": {
     "babel-preset-env": "1.7.0",

@@ -1,4 +1,5 @@
 require('babel-register')({
-  presets: ['env'],
+  presets: ['react', 'env'],
+  plugins: ['transform-class-properties']
 });
 require('./server');
