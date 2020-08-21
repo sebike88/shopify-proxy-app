@@ -19,7 +19,7 @@ class MyApp extends App {
         <AppProvider
           shopOrigin={this.state.shopOrigin}
           apiKey={API_KEY}
-          forceRedirect
+          forceRedirect={true}
         >
           <Component {...pageProps}/>
         </AppProvider>
