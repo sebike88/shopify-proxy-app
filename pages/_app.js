@@ -1,7 +1,7 @@
 import App from 'next/app';
 import Head from 'next/head';
 import { AppProvider } from '@shopify/polaris';
-import '@shopify/polaris/styles.css';
+// import '@shopify/polaris/styles.css';
 import Cookies from 'js-cookie';
 
 class MyApp extends App {

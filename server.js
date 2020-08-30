@@ -2,6 +2,7 @@ require('@babel/polyfill');
 require('isomorphic-fetch');
 import Koa from 'koa'
 import next from 'next';
+import serve from 'koa-static-server';
 import createShopifyAuth from '@shopify/koa-shopify-auth';
 import dotenv from 'dotenv';
 import { verifyRequest }from '@shopify/koa-shopify-auth';
@@ -36,6 +37,7 @@ app.prepare().then(() => {
     }
   }));
 
+  server.use(serve({rootDir: '.next/static/chunks', rootPath: '/proxy/static'}))
   server.use(proxy.routes());
   server.use(verifyRequest());
 

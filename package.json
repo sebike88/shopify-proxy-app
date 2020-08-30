@@ -18,7 +18,7 @@
     "@shopify/koa-shopify-auth": "3.1.66",
     "@shopify/polaris": "3.18.0",
     "@zeit/next-css": "1.0.1",
-    "babel-plugin-transform-class-properties": "6.24.1",
+    "dom-parser": "0.1.6",
     "dotenv": "8.0.0",
     "isomorphic-fetch": "2.2.1",
     "js-cookie": "2.2.1",
@@ -27,15 +27,33 @@
     "koa-send": "5.0.1",
     "koa-session": "6.0.0",
     "koa-static": "5.0.0",
-    "next": "9.3.2",
+    "koa-static-server": "1.5.2",
+    "next": "9.5.2",
     "nodemon": "1.19.1",
     "react": "16.8.6",
     "react-dom": "16.8.6",
+    "regenerator-runtime": "0.13.7",
+    "static-koa-router": "1.0.3",
     "webpack-node-externals": "1.7.2"
   },
   "devDependencies": {
+    "@babel/core": "7.11.4",
+    "@babel/plugin-proposal-class-properties": "7.10.4",
+    "@babel/plugin-syntax-class-properties": "7.10.4",
+    "@babel/plugin-transform-regenerator": "7.10.4",
+    "@babel/preset-env": "7.11.0",
+    "@babel/preset-react": "7.10.4",
+    "babel-loader": "8.1.0",
+    "babel-plugin-transform-class-properties": "6.24.1",
     "babel-preset-env": "1.7.0",
     "babel-preset-react": "6.24.1",
-    "babel-register": "6.26.0"
+    "babel-register": "6.26.0",
+    "html-webpack-plugin": "4.3.0",
+    "webpack": "4.44.1"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "proxy/dist/*"
+    ]
   }
 }
