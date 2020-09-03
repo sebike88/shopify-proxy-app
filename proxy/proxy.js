@@ -1,39 +1,71 @@
 import Router from 'koa-router';
-import Koa from 'koa';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import Layout from './components/Layout';
-
-import fs from 'fs';
-import path from 'path';
+import fs from 'fs'
 
 const router = new Router();
+const jsx = ( <Layout /> );
+const ReactDom = renderToString( jsx );
 
-router.get('/proxy', (ctx, next) => {
-  const jsx = ( <Layout /> );
-  const ReactDom = renderToString( jsx );
+router.get('/proxy', async (ctx) => {
   ctx.type='application/liquid';
   ctx.status=200;
-  ctx.body = htmlTemplate(ReactDom);
+  const data = await readManifest();
+  console.log(data.toString());
+  const filesArr = await manifestArray(data.toString());
+  ctx.body = await htmlTemplate(ReactDom, filesArr);
 });
 
-function htmlTemplate( reactDom ) {
+/**
+ * Helper functions.
+ */
+function readManifest() {
+  return new Promise((resolve, reject) => {
+    fs.readFile(__dirname + '/../.next/manifest.js', (err, data) => {
+      if (err) {
+        reject(err);
+        throw err;
+      }
+      resolve(data)
+    });
+  });
+}
+
+function manifestArray(string) {
+  const arr = JSON.parse(string);
+  const sanitizedArr = arr
+    .filter(item => {
+      return (
+        item.includes('polyfills') ||
+        item.includes('proxy') ||
+        item.includes('webpack')
+      )
+    })
+    .map(item => item.split('/').pop())
+
+  console.log(sanitizedArr);
+  return sanitizedArr;
+}
+
+function htmlTemplate(reactDom, scripts) {
     return `
       <div class="container shopify-section index-section" id="app">${ reactDom }</div>
-      <script src="proxy/static/polyfills.js"></script>
-      <script src="proxy/static/proxy.js"></script>
-      <script src="proxy/static/webpack.js"></script>
+      ${productList()}
+      ${scripts.map(file => `<script src="proxy/static/${file}"></script>`).join('')}
     `;
 }
 
-function readFile() {
-  fs.readFile(path.resolve(__dirname, 'dist', 'main.js'), (err, data) => {
-
-    if (err) throw new Error(err);
-    console.log('added');
-    main = data;
-    
-  });
+function productList() {
+  return `
+    <script type="application/json">
+    [
+      {% for product in collections.all.products %}
+        "{{ product.title }}",
+      {% endfor %}
+    ]
+    </script>
+  `;
 }
 
 module.exports = router;
