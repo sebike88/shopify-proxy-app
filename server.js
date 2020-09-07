@@ -1,12 +1,13 @@
 require('@babel/polyfill');
 require('isomorphic-fetch');
 import Koa from 'koa'
+import Router from 'koa-router'
 import next from 'next';
 import serve from 'koa-static-server';
 import createShopifyAuth from '@shopify/koa-shopify-auth';
-import dotenv from 'dotenv';
 import { verifyRequest }from '@shopify/koa-shopify-auth';
 import session from 'koa-session';
+import dotenv from 'dotenv';
 
 import proxy from './proxy/proxy';
 
@@ -21,15 +22,15 @@ const { SHOPIFY_API_KEY, SHOPIFY_API_SECRET_KEY } = process.env;
 
 app.prepare().then(() => {
   const server = new Koa();
+  const router = new Router();
 
-  server.use(session(server));
-  
+  server.use(session({ sameSite: 'none', secure: true }, server));
   server.keys = [SHOPIFY_API_SECRET_KEY];
 
   server.use(createShopifyAuth({
     apiKey: SHOPIFY_API_KEY,
     secret: SHOPIFY_API_SECRET_KEY,
-    scopes: ['read_products'],
+    scopes: ['read_products', 'write_products'],
     afterAuth(ctx) {
       const { shop, accessToken } = ctx.session;
       ctx.cookies.set('shopOrigin', shop, { httpOnly: false });
@@ -37,6 +38,13 @@ app.prepare().then(() => {
     }
   }));
 
+  router.get('*', verifyRequest(), async (ctx) => {
+    await handle(ctx.req, ctx.res);
+    ctx.respond = false;
+    ctx.res.statusCode = 200;
+  });
+
+  server.use(router.allowedMethods());
   server.use(serve({rootDir: '.next/static/chunks', rootPath: '/proxy/static'}))
   server.use(proxy.routes());
   server.use(verifyRequest());

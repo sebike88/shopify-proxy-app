@@ -2,7 +2,7 @@ import React from 'react';
 
 class Layout extends React.Component {
   state = {
-    title: "Welcome to React SSR! 2"
+    title: "Welcome to React SSR!"
   }
   
   render() {

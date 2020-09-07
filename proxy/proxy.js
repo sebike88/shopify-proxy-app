@@ -10,11 +10,15 @@ const ReactDom = renderToString( jsx );
 
 router.get('/proxy', async (ctx) => {
   ctx.type='application/liquid';
-  ctx.status=200;
-  const data = await readManifest();
-  console.log(data.toString());
-  const filesArr = await manifestArray(data.toString());
-  ctx.body = await htmlTemplate(ReactDom, filesArr);
+  try {
+    ctx.status = 200;
+    const data = await readManifest();
+    const filesArr = await manifestArray(data.toString());
+    ctx.body = await htmlTemplate(ReactDom, filesArr);
+  } catch (error) {
+    ctx.status = 500;
+    ctx.body = error;
+  }
 });
 
 /**
@@ -44,14 +48,12 @@ function manifestArray(string) {
     })
     .map(item => item.split('/').pop())
 
-  console.log(sanitizedArr);
   return sanitizedArr;
 }
 
 function htmlTemplate(reactDom, scripts) {
     return `
       <div class="container shopify-section index-section" id="app">${ reactDom }</div>
-      ${productList()}
       ${scripts.map(file => `<script src="proxy/static/${file}"></script>`).join('')}
     `;
 }
