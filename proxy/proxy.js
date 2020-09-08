@@ -10,6 +10,9 @@ const jsx = ( <Layout /> );
 const ReactDom = renderToString( jsx );
 
 
+/**
+ * Links to 'apps/proxy' route in the app proxy extension settings.
+ */
 router.get('/proxy', async (ctx) => {
   ctx.type='application/liquid';
   const start = new Date();
