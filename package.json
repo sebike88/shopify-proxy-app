@@ -56,7 +56,7 @@
   },
   "nodemonConfig": {
     "ignore": [
-      "proxy/dist/*"
+      "proxy/manifest.js"
     ]
   }
 }

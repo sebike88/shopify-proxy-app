@@ -9,7 +9,7 @@ const apiKey =  JSON.stringify(process.env.SHOPIFY_API_KEY);
     const env = { API_KEY: apiKey };
 
     config.plugins.push(new webpack.DefinePlugin(env));
-    config.plugins.push(new ChunkListWebpackPlugin({output: 'manifest.js'}));
+    config.plugins.push(new ChunkListWebpackPlugin({output: '../proxy/manifest.js'}));
 
     return Object.assign({}, config, { entry: function() {
       return config.entry().then((entry) => {

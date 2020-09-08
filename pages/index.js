@@ -7,7 +7,7 @@ const Index = () => (
     <Page>
       <Layout>
         <EmptyState
-          heading="No author pages found"
+          heading="Admin page"
           image={img}
         >
         
