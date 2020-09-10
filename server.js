@@ -10,6 +10,7 @@ import session from 'koa-session';
 import dotenv from 'dotenv';
 
 import proxy from './proxy/proxy';
+import storefront from './storefront/storefront';
 
 dotenv.config();
 
@@ -27,16 +28,21 @@ app.prepare().then(() => {
   server.use(session({ sameSite: 'none', secure: true }, server));
   server.keys = [SHOPIFY_API_SECRET_KEY];
 
-  server.use(createShopifyAuth({
-    apiKey: SHOPIFY_API_KEY,
-    secret: SHOPIFY_API_SECRET_KEY,
-    scopes: ['read_products', 'write_products'],
-    afterAuth(ctx) {
-      const { shop, accessToken } = ctx.session;
-      ctx.cookies.set('shopOrigin', shop, { httpOnly: false });
-      ctx.redirect('/');
-    }
-  }));
+  server.use(
+    createShopifyAuth({
+      apiKey: SHOPIFY_API_KEY,
+      secret: SHOPIFY_API_SECRET_KEY,
+      scopes: ['read_products', 'write_products'],
+      async afterAuth(ctx) {
+        const { shop, accessToken } = ctx.session;
+        ctx.cookies.set("shopOrigin", shop, {
+          httpOnly: false,
+          secure: true,
+          sameSite: 'none'
+        });
+      }
+    })
+  );
 
   router.get('*', verifyRequest(), async (ctx) => {
     await handle(ctx.req, ctx.res);
@@ -45,8 +51,12 @@ app.prepare().then(() => {
   });
 
   server.use(router.allowedMethods());
+  
   server.use(serve({rootDir: '.next/static/chunks', rootPath: '/proxy/static'}))
   server.use(proxy.routes());
+
+  server.use(storefront.routes());
+  
   server.use(verifyRequest());
 
   server.use(async (ctx) => {

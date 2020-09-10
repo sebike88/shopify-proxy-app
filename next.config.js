@@ -16,8 +16,6 @@ const apiKey =  JSON.stringify(process.env.SHOPIFY_API_KEY);
         return Object.assign({}, entry, { 'proxy': './proxy/public/client.js'})
       });
     }});
-
-    return config;
   },
 });
 
