@@ -35,6 +35,7 @@ app.prepare().then(() => {
       scopes: ['read_products', 'write_products'],
       async afterAuth(ctx) {
         const { shop, accessToken } = ctx.session;
+
         ctx.cookies.set("shopOrigin", shop, {
           httpOnly: false,
           secure: true,
@@ -54,7 +55,6 @@ app.prepare().then(() => {
   
   server.use(serve({rootDir: '.next/static/chunks', rootPath: '/proxy/static'}))
   server.use(proxy.routes());
-
   server.use(storefront.routes());
   
   server.use(verifyRequest());

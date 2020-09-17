@@ -9,24 +9,17 @@ const router = new Router();
 const jsx = ( <Layout /> );
 const ReactDom = renderToString( jsx );
 
-
 /**
  * Links to 'apps/proxy' route in the app proxy extension settings.
  */
 router.get('/proxy', async (ctx) => {
   ctx.type='application/liquid';
-  const start = new Date();
-  const hrstart = process.hrtime();
 
   try {
     ctx.status = 200;
     const data = await readManifest();
     const filesArr = await manifestArray(data.toString());
-    const end = new Date() - start;
-  const hrend = process.hrtime(hrstart)
 
-  console.log('Execution time: %dms', end);
-  console.log('Execution time (hr): %ds %dms', hrend[0], hrend[1] / 1000000);
     ctx.body = await htmlTemplate(ReactDom, filesArr);
   } catch (error) {
     ctx.status = 500;
