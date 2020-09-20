@@ -28,37 +28,6 @@ router.get('/proxy', async (ctx) => {
   }
 });
 
-/**
- * Helper functions.
- */
-// function readManifest() {
-//   return new Promise((resolve, reject) => {
-//     fs.readFile(__dirname + '/../manifest.js', (err, data) => {
-//       if (err) {
-//         reject(err);
-//         throw err;
-//       }
-//       resolve(data);
-//     });
-//   });
-// }
-
-// function manifestArray(string) {
-//   const arr = JSON.parse(string);
-//   const sanitizedArr = arr
-//     .filter(item => {
-//       return (
-//         item.includes('polyfills') ||
-//         item.includes('proxy') ||
-//         item.includes('webpack')
-//       )
-//     })
-//     .map(item => item.split('/').pop());
-
-//     console.log(sanitizedArr);
-//   return sanitizedArr;
-// }
-
 function htmlTemplate(reactDom, scripts) {
     return `
       <div class="container shopify-section index-section" id="app">${ reactDom }</div>

@@ -14,18 +14,11 @@ const graphQlAddress = 'https://sbk-app-store.myshopify.com/admin/api/2020-07/gr
 
 const router = new Router();
 
-// graphQlScriptTag(DELETE_SCRIPTTAGS)
-//   .catch((error) => {
-//     console.log('DELETE_SCRIPTTAGS', error);
-//   });
-
 /**
  * Links to 'apps/proxy' route in the app proxy extension settings.
  */
 router.get('/storefront', async (ctx) => {
   ctx.type='application/liquid';
-  // ctx.status = 200;
-  // ctx.body = `console.log('hey')`
 
   try {
     ctx.status = 200;
@@ -33,7 +26,6 @@ router.get('/storefront', async (ctx) => {
     const filesArr = await manifestStorefrontArray(data.toString());
 
     ctx.body = filesArr.join('');
-    // ctx.body = `console.log('hey')`
   } catch (error) {
     console.log('/storefront', error);
     ctx.status = 500;
@@ -54,6 +46,11 @@ graphQlScriptTag(GET_SCRIPTTAGS)
   }).catch((error) => {
     console.log('GET_SCRIPTTAGS', error);
   });
+
+  // graphQlScriptTag(DELETE_SCRIPTTAGS)
+  //   .catch((error) => {
+  //     console.log('DELETE_SCRIPTTAGS', error);
+  //   });
 
 async function graphQlScriptTag(query) {
   return new Promise((resolve, reject) => {
