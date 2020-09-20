@@ -30,10 +30,14 @@ async function getStorefrontScript(file) {
   })
 }
 
-export async function manifestStorefrontArray(string) {
+export async function manifestStorefrontArray(string, referer) {
   const arr = JSON.parse(string);
   const sanitizedArr = arr
     .filter(item => {
+      if (referer.includes('apps/proxy')) {
+        return item.includes('storefront');
+      }
+
       return item.includes('polyfills') ||
         item.includes('storefront') ||
         item.includes('webpack');
@@ -64,8 +68,4 @@ export function manifestProxyArray(string) {
     .map(item => item.split('/').pop());
 
   return sanitizedArr;
-}
-
-export async function renderStorefrontScript() {
-
 }
