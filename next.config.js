@@ -9,13 +9,32 @@ const apiKey =  JSON.stringify(process.env.SHOPIFY_API_KEY);
     const env = { API_KEY: apiKey };
 
     config.plugins.push(new webpack.DefinePlugin(env));
-    config.plugins.push(new ChunkListWebpackPlugin({output: '../proxy/manifest.js'}));
+    config.plugins.push(new ChunkListWebpackPlugin({output: '../manifest.js'}));
 
-    return Object.assign({}, config, { entry: function() {
-      return config.entry().then((entry) => {
-        return Object.assign({}, entry, { 'proxy': './proxy/public/client.js'})
-      });
-    }});
+    config.module.rules.push({
+      test: /\.s[ac]ss$/i,
+      use: [
+        // Creates `style` nodes from JS strings
+        'style-loader',
+        // Translates CSS into CommonJS
+        'css-loader',
+        // Compiles Sass to CSS
+        'sass-loader',
+      ],
+    })
+
+    return Object.assign({}, config, {
+      entry: function() {
+        return config.entry().then((entry) => {
+          return (
+            Object.assign({}, entry, {
+              'proxy': './proxy/public/client.js',
+              'storefront': './storefront/public/client.js'
+            })
+          )
+        });
+      },
+    });
   },
 });
 

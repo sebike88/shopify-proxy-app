@@ -2,8 +2,8 @@ import Router from 'koa-router';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import Layout from './components/Layout';
-import fs from 'fs';
-import path from 'path';
+
+import {readManifest, manifestProxyArray} from '../helpers/utils';
 
 const router = new Router();
 const jsx = ( <Layout /> );
@@ -18,10 +18,11 @@ router.get('/proxy', async (ctx) => {
   try {
     ctx.status = 200;
     const data = await readManifest();
-    const filesArr = await manifestArray(data.toString());
+    const filesArr = await manifestProxyArray(data.toString());
 
     ctx.body = await htmlTemplate(ReactDom, filesArr);
   } catch (error) {
+    console.log('/proxy', error);
     ctx.status = 500;
     ctx.body = 'Internal server error';
   }
@@ -30,31 +31,33 @@ router.get('/proxy', async (ctx) => {
 /**
  * Helper functions.
  */
-function readManifest() {
-  return new Promise((resolve, reject) => {
-    fs.readFile(__dirname + '/manifest.js', (err, data) => {
-      if (err) {
-        reject(err);
-        throw err;
-      }
-      resolve(data)
-    });
-  });
-}
+// function readManifest() {
+//   return new Promise((resolve, reject) => {
+//     fs.readFile(__dirname + '/../manifest.js', (err, data) => {
+//       if (err) {
+//         reject(err);
+//         throw err;
+//       }
+//       resolve(data);
+//     });
+//   });
+// }
 
-function manifestArray(string) {
-  const arr = JSON.parse(string);
-  const sanitizedArr = arr
-    .filter(item => {
-      return (
-        item.includes('polyfills') ||
-        item.includes('proxy') ||
-        item.includes('webpack')
-      )
-    })
-    .map(item => item.split('/').pop());
-  return sanitizedArr;
-}
+// function manifestArray(string) {
+//   const arr = JSON.parse(string);
+//   const sanitizedArr = arr
+//     .filter(item => {
+//       return (
+//         item.includes('polyfills') ||
+//         item.includes('proxy') ||
+//         item.includes('webpack')
+//       )
+//     })
+//     .map(item => item.split('/').pop());
+
+//     console.log(sanitizedArr);
+//   return sanitizedArr;
+// }
 
 function htmlTemplate(reactDom, scripts) {
     return `

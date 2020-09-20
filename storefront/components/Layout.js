@@ -2,7 +2,7 @@ import React from 'react';
 
 class Layout extends React.Component {
   state = {
-    title: "Proxy Script"
+    title: "Storefront Script"
   }
   
   render() {
@@ -13,7 +13,7 @@ class Layout extends React.Component {
         className="page-width"
       >
         <h1>{title}</h1>
-        <button onClick={() => console.log('works')}>click</button>
+        <button onClick={() => console.log('storefront script works')}>click</button>
       </div>
     )
   }
