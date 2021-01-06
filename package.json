@@ -20,7 +20,7 @@
     "@zeit/next-css": "1.0.1",
     "apollo-boost": "^0.4.7",
     "apollo-fetch": "0.7.0",
-    "axios": "0.20.0",
+    "axios": "0.21.1",
     "dom-parser": "0.1.6",
     "dotenv": "8.0.0",
     "graphql": "^14.7.0",
