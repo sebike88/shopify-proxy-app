@@ -21,8 +21,6 @@ router.get('/storefront', async (ctx) => {
   const address = ctx.request.url.split('=')[1];
   const {referer} = ctx.request.header;
 
-  console.log(ctx);
-
   try {
     ctx.status = 200;
     const data = await readManifest();

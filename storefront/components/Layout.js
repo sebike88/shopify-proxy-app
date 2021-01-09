@@ -1,4 +1,5 @@
 import React from 'react';
+import '../style/client.scss';
 
 class Layout extends React.Component {
   state = {

@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom';
 
 import Layout from '../components/Layout';
 
-import '../style/client.scss';
-
 const selectors = {
   storefront: 'storefront',
   iconsWrapper: '.site-header__icons-wrapper',
@@ -31,4 +29,6 @@ setWishlistIcon();
 
 if (nodeSelectors.app && !window.location.href.includes('apps/proxy')) {
   ReactDOM.render( <Layout />, nodeSelectors.app );
+} else {
+  nodeSelectors.app.parentNode.removeChild(nodeSelectors.app);
 }
