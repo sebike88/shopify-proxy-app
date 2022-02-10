@@ -32,7 +32,7 @@
     "koa-session": "6.0.0",
     "koa-static-server": "1.5.2",
     "next": "9.5.2",
-    "node-sass": "4.14.1",
+    "node-sass": "7.0.0",
     "nodemon": "1.19.1",
     "react": "16.8.6",
     "react-apollo": "^3.1.3",
